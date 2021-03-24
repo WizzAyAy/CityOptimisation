@@ -34,21 +34,32 @@ public class Batiment {
 	public String toString() {
 		String s = "Bat n°";
 		if(this.numero < 10)
-			s += Integer.toString(this.numero) + "  |";
+			s += Integer.toString(this.numero) + "  | ";
 		else 
-			s += Integer.toString(this.numero) + " |";
+			s += Integer.toString(this.numero) + " | ";
 		
-		s +=  "(x:" + this.x + ", y:" + this.y + ", w:" + this.width + ", h:" +this.height + ")";
+		s +=  "(x:" + this.x + ", y:" + this.y + ", h:" + this.height + ", w:" +this.width + ")";
+		if(this.isPlaced)
+			s += " Placed";
 		return s;
 	}
+	
 
 	// Coordinates
 	public int getX() {
 		return x;
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
 
 	public int getY() {
 		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	public int endX()
@@ -76,9 +87,18 @@ public class Batiment {
 		return numero;
 	}
 
-	// Is placed
+	// placed
 	public boolean isPlaced() {
 		return isPlaced;
+	}
+	
+	public void setPlaced(boolean b) {
+		this.isPlaced = b;
+	}
+	
+	//Area
+	public int getArea() {
+		return width * height;
 	}
 
 	// Is superimposed to another building
@@ -87,7 +107,6 @@ public class Batiment {
 		// if x or y is > to end of building b, not superimposed, 
 		// else, if end of this building inferior to start of building b, not superimposed, else superimposed
 		return (x > b.endX() || y > b.endY()) ? false : ((endX() < b.getX() || endY() < b.getY()) ? false : true);
-
 	}
 	
 	public int area()
