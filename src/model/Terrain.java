@@ -60,7 +60,7 @@ public class Terrain {
 	}
 
 	public boolean isBatInside(Batiment b) {
-		if(b.getX() <= 0 && b.getY() <= 0 && b.endX() <= this.width && b.endY() <= this.height)
+		if(b.getX() >= 0 && b.getY() >= 0 && b.endX() <= this.width && b.endY() <= this.height)
 			return true;
 		else return false;
 	}
@@ -241,4 +241,31 @@ public class Terrain {
 			System.out.println(i[0]+";"+i[1]);
 		}
 	}
+
+		
+		//---------------------GETTER AND SETTER---------------------//
+		
+		public int getHeight() {
+			return height;
+		}
+
+		public void setHeight(int height) {
+			this.height = height;
+		}
+
+		public int getWidth() {
+			return width;
+		}
+
+		public void setWidth(int width) {
+			this.width = width;
+		}
+
+		public int[][] getMatrice() {
+			return matrice;
+		}
+
+		public void setMatrice(int[][] matrice) {
+			this.matrice = matrice;
+		}
 }

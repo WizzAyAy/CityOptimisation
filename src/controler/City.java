@@ -10,15 +10,15 @@ public class City {
 	public void generCityRandom(int xMax, int yMax, int nbBat) {
 		//classe qui genere une city random;
 		
-		int xTerrain = (int) (Math.random() * xMax) + 1;
-		int yTerrain = (int) (Math.random() * yMax) + 1;
+		int xTerrain = (int) (Math.random() * xMax) + 5;
+		int yTerrain = (int) (Math.random() * yMax) + 5;
 		
 		terrain = new Terrain(xTerrain, yTerrain);
 		
 		
 		
 		for(int i = 1; i <= nbBat; i++) {
-			terrain.addBat(new Batiment(xMax / 3, yMax / 3, i));
+			terrain.addBat(new Batiment(xMax / 3 + 2, yMax / 3 + 2, i));
 		}
 		
 		terrain.placeHDV();
@@ -44,5 +44,9 @@ public class City {
 		System.out.println(terrain.score() + " / " + terrain.maxScore());
 		System.out.println("");
 		
+	}
+	
+	public Terrain getTerrain() {
+		return this.terrain;
 	}
 }

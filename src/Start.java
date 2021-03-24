@@ -1,4 +1,5 @@
 import controler.City;
+import view.ViewCtity;
 
 public class Start {
 
@@ -6,6 +7,8 @@ public class Start {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to Gotham !");
 		City c = new City();
-		c.generCityRandom(15, 15, 5);
-	} 
+		c.generCityRandom(10, 10, (int) (Math.random() * 5) + 2);
+		
+		ViewCtity view = new ViewCtity(c);
+	}
 }
