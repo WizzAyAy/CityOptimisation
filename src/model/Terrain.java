@@ -12,5 +12,4 @@ public class Terrain {
 		this.witdh = witdh;
 		this.batiments = new ArrayList<Batiment>();
 	}
-
 }
