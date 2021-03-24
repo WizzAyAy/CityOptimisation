@@ -14,6 +14,8 @@ public class Terrain {
 		
 		matrice = new int [witdh][height];
 		this.batiments = new ArrayList<Batiment>();
+		
+		initMatrice();
 	}
 	
 	public void initMatrice() {
@@ -27,9 +29,22 @@ public class Terrain {
 	public void printTerrain() {
 		for(int i = 0; i < matrice.length; i++) {
 			for(int j = 0; j < matrice[i].length; j++) {
-				System.out.println("%2d" + matrice[i][j] + " ");
+				if(matrice[i][j] < 10)
+					System.out.print("  " + matrice[i][j]);
+				else
+					System.out.print(" " + matrice[i][j]);
 			}
-			System.out.println("\n");
+			System.out.println("");
 		}
+	}
+	
+	public void printAllBat() {
+		for(int i = 0; i < batiments.size(); i++) {
+			System.out.println(batiments.get(i).toString());
+			}
+	}
+	
+	public void addBat(Batiment b) {
+		batiments.add(b);
 	}
 }
