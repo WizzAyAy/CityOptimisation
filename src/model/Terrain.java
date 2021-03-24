@@ -120,14 +120,17 @@ public class Terrain {
 	public void links()
 	{
 		ArrayDeque<int[]> stack = initStack();
-		ArrayDeque<int[]> visited = stack;
+		
 		if(stack == null)
 		{
 			return;
 		}
 		
+		ArrayDeque<int[]> visited = stack;
+		
 		while(!stack.isEmpty())
 		{
+			showStack(stack);
 			int[] currentPos = stack.removeFirst();
 			
 			int x = currentPos[0];
@@ -138,7 +141,7 @@ public class Terrain {
 				if(matrice[y][x-1] == 0)
 				{
 					int array[] = {x-1,y};
-					if(!visited.contains(array))
+					if(!contains(visited, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -156,7 +159,7 @@ public class Terrain {
 				if(matrice[y][x+1] == 0)
 				{
 					int array[] = {x+1,y};
-					if(!visited.contains(array))
+					if(!contains(visited, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -173,7 +176,7 @@ public class Terrain {
 				if(matrice[y-1][x] == 0)
 				{
 					int array[] = {x,y-1};
-					if(!visited.contains(array))
+					if(!contains(visited, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -190,7 +193,7 @@ public class Terrain {
 				if(matrice[y+1][x] == 0)
 				{
 					int array[] = {x,y+1};
-					if(!visited.contains(array))
+					if(!contains(visited, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -258,6 +261,8 @@ public class Terrain {
 		{
 			System.out.println(i[0]+";"+i[1]);
 		}
+		
+		System.out.println("-------------");
 	}
 
 		
@@ -287,10 +292,10 @@ public class Terrain {
 			this.matrice = matrice;
 		}
 		
-		public boolean contains(ArrayDeque<int[]> visited ,int x, int y) {
+		public boolean contains(ArrayDeque<int[]> visited ,int[] array) {
 			
 			for (int[] item: visited) {
-	            if(item[0] == x && item[1] == y)
+	            if(item[0] == array[0] && item[1] == array[1])
 	            	return true;
 	        }
 			return false;
