@@ -65,4 +65,9 @@ public class Batiment {
 		// else, if end of this building inferior to start of building b, not superimposed, else superimposed
 		return (x > b.endX() || y > b.endY()) ? false : ((endX() < b.getX() || endY() < b.getY()) ? false : true);
 	}
+	
+	public int area()
+	{
+		return height*width;
+	}
 }
