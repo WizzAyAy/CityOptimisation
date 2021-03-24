@@ -21,8 +21,10 @@ public class City {
 			terrain.addBat(new Batiment(xMax / 3, yMax / 3, i));
 		}
 		
-		printCity();
+		terrain.placeHDV();
+		terrain.updateMap();
 		
+		printCity();	
 	}
 	
 	public void generCityFile(/*file du prof*/) {

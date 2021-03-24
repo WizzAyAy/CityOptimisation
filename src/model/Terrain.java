@@ -14,7 +14,7 @@ public class Terrain {
 		this.height = height;
 		this.witdh = witdh;
 		
-		matrice = new int [witdh][height];
+		matrice = new int [height][witdh];
 		this.batiments = new ArrayList<Batiment>();
 		
 		initMatrice();
@@ -32,6 +32,7 @@ public class Terrain {
 	//---------------------PRINT---------------------//
 	
 	public void printTerrain() {
+		System.out.println("Terrain de taille | w:"+this.witdh+ " h:"+this.height );
 		for(int i = 0; i < matrice.length; i++) {
 			for(int j = 0; j < matrice[i].length; j++) {
 				if(matrice[i][j] < 10)
@@ -61,8 +62,10 @@ public class Terrain {
 		else return false;
 	}
 	
-	public boolean placeBats(Batiment b) {
+	public boolean placeBats(Batiment b, int x, int y) {
 		boolean placed = true;
+		b.setX(x);
+		b.setY(y);
 		placed = placed && isBatInside(b);
 		
 		for(int i = 0; i < batiments.size(); i++) {
@@ -72,6 +75,22 @@ public class Terrain {
 		}
 		b.setPlaced(placed);
 		return placed;
+	}
+	
+	public void placeHDV() {
+		placeBats(batiments.get(0), 0, 0);
+	}
+	
+	public void updateMap() {
+		for(int i = 0; i < batiments.size(); i++) {
+			if(batiments.get(i).isPlaced()) {
+				for(int a = batiments.get(i).getY(); a < batiments.get(i).endY(); a++) {
+					for(int b = batiments.get(i).getX(); b < batiments.get(i).endX(); b++) {
+						matrice[a][b] = batiments.get(i).getNumero();
+					}
+				}
+			}
+		}
 	}
 	
 	//---------------------SCORES---------------------//

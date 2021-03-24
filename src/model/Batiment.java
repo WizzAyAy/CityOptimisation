@@ -34,11 +34,13 @@ public class Batiment {
 	public String toString() {
 		String s = "Bat n°";
 		if(this.numero < 10)
-			s += Integer.toString(this.numero) + "  |";
+			s += Integer.toString(this.numero) + "  | ";
 		else 
-			s += Integer.toString(this.numero) + " |";
+			s += Integer.toString(this.numero) + " | ";
 		
-		s +=  "(x:" + this.x + ", y:" + this.y + ", w:" + this.width + ", h:" +this.height + ")";
+		s +=  "(x:" + this.x + ", y:" + this.y + ", h:" + this.height + ", w:" +this.width + ")";
+		if(this.isPlaced)
+			s += " Placed";
 		return s;
 	}
 	
@@ -47,9 +49,17 @@ public class Batiment {
 	public int getX() {
 		return x;
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
 
 	public int getY() {
 		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	public int endX()
