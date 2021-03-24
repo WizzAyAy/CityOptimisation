@@ -81,7 +81,7 @@ public class Terrain {
 	}
 	
 	public void placeHDV() {
-		placeBats(batiments.get(0), 1, 1);
+		placeBats(batiments.get(0), 0, 0);
 	}
 	
 	public void updateMap() {

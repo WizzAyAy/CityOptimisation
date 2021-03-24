@@ -50,15 +50,6 @@ public class ViewCtity extends JFrame {
 		if(numero == 1) {
 			return new Color(63, 135, 245);
 		}
-		else if(numero%3 == 0) {
-			return new Color(245, 66, 182);
-		}
-		else if(numero%3 == 1) {
-			return new Color(66, 245, 96);
-		}
-		else if(numero%3 == 2) {
-			return new Color(255, 0, 43);
-		}
-		else return Color.black;
+		return new Color((int) Math.random() * 255,(int) Math.random() * 255,(int) Math.random() * 255);
 	}
 }
