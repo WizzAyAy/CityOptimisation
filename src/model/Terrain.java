@@ -60,7 +60,7 @@ public class Terrain {
 	}
 
 	public boolean isBatInside(Batiment b) {
-		if(b.getX() <= 0 && b.getY() <= 0 && b.endX() <= this.width && b.endY() <= this.height)
+		if(b.getX() >= 0 && b.getY() >= 0 && b.endX() <= this.width && b.endY() <= this.height)
 			return true;
 		else return false;
 	}
@@ -81,7 +81,7 @@ public class Terrain {
 	}
 	
 	public void placeHDV() {
-		placeBats(batiments.get(0), 0, 0);
+		placeBats(batiments.get(0), 1, 1);
 	}
 	
 	public void updateMap() {
