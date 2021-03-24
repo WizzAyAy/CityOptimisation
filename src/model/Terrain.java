@@ -117,70 +117,130 @@ public class Terrain {
 	//---------------------ROAD LINKS---------------------//
 	
 	// Test links to the CityHall
-		public void links()
+	public void links()
+	{
+		ArrayDeque<int[]> stack = initStack();
+		if(stack == null)
 		{
-			ArrayDeque<int[]> stack = initStack();
-			// To remove
-			//showStack(stack);
+			return;
+		}
+		
+		while(!stack.isEmpty())
+		{
+			int[] currentPos = stack.removeFirst();
 			
-			while(!stack.isEmpty())
+			int x = currentPos[0];
+			int y = currentPos[1];
+			
+			if(x>0)
 			{
-				int[] currentPos = stack.removeFirst();
-				
-				
+				if(matrice[x-1][y] == 0)
+				{
+					int array[] = {x-1,y};
+					stack.addFirst(array);
+				}
+				else
+				{
+					this.batiments.get(matrice[x-1][y]).setLinked(true);
+				}
+			}
+			
+			if(x<width)
+			{
+				if(matrice[x+1][y] == 0)
+				{
+					int array[] = {x+1,y};
+					stack.addFirst(array);
+				}
+				else
+				{
+					this.batiments.get(matrice[x+1][y]).setLinked(true);
+				}
+			}
+			
+			if(y>0)
+			{
+				if(matrice[x][y-1] == 0)
+				{
+					int array[] = {x,y-1};
+					stack.addFirst(array);
+				}
+				else
+				{
+					this.batiments.get(matrice[x][y-1]).setLinked(true);
+				}
+			}
+			
+			if(y<height)
+			{
+				if(matrice[x][y+1] == 0)
+				{
+					int array[] = {x,y+1};
+					stack.addFirst(array);
+				}
+				else
+				{
+					this.batiments.get(matrice[x][y+1]).setLinked(true);
+				}
+			}
+		}
+	}
+	
+	public ArrayDeque<int[]> initStack()
+	{
+		Batiment CityHall = batiments.get(0);
+		
+		if(!CityHall.isPlaced())
+		{
+			return null;
+		}
+		
+		ArrayDeque<int[]> stack = new ArrayDeque<>();
+		
+		if(CityHall.getX() > 0)
+		{
+			for(int i = CityHall.getY(); i < CityHall.endY(); i++)
+			{
+				int array[] = {CityHall.getX()-1,i};
+				stack.add(array);
+			}
+		}
+		if(CityHall.getY() > 0)
+		{
+			for(int i = CityHall.getX(); i < CityHall.endX(); i++)
+			{
+				int array[] = {i, CityHall.getY()-1};
+				stack.add(array);
+			}
+		}
+		if(CityHall.endX() < this.width)
+		{
+			for(int i = CityHall.getY(); i < CityHall.endY(); i++)
+			{
+				int array[] = {CityHall.endX()+1,i};
+				stack.add(array);
+			}
+		}
+		if(CityHall.endY() < this.height)
+		{
+			for(int i = CityHall.getX(); i < CityHall.endX(); i++)
+			{
+				int array[] = {i, CityHall.endY()+1};
+				stack.add(array);
 			}
 		}
 		
-		public ArrayDeque<int[]> initStack()
+		return stack;
+	}
+	
+	// Utilities, used to show content of stack
+	public void showStack(ArrayDeque<int[]> stack)
+	{
+		for(int[] i: stack)
 		{
-			Batiment CityHall = batiments.get(0);
-			
-			ArrayDeque<int[]> stack = new ArrayDeque<>();
-			
-			if(CityHall.getX() > 0)
-			{
-				for(int i = CityHall.getY(); i < CityHall.endY(); i++)
-				{
-					int array[] = {CityHall.getX()-1,i};
-					stack.add(array);
-				}
-			}
-			if(CityHall.getY() > 0)
-			{
-				for(int i = CityHall.getX(); i < CityHall.endX(); i++)
-				{
-					int array[] = {CityHall.getY()-1,i};
-					stack.add(array);
-				}
-			}
-			if(CityHall.endX() < this.width)
-			{
-				for(int i = CityHall.getY(); i < CityHall.endY(); i++)
-				{
-					int array[] = {CityHall.endX()+1,i};
-					stack.add(array);
-				}
-			}
-			if(CityHall.endY() < this.height)
-			{
-				for(int i = CityHall.getX(); i < CityHall.endX(); i++)
-				{
-					int array[] = {CityHall.endY()+1,i};
-					stack.add(array);
-				}
-			}
-			
-			return stack;
+			System.out.println(i[0]+";"+i[1]);
 		}
-		
-		// Utilities, used to show content of stack
-		public void showStack(ArrayDeque<int[]> stack)
-		{
-			for(int[] i: stack)
-			{
-				System.out.println(i[1]+";"+i[2]);
-			}
-		}
+	}
 
 		
 		//---------------------GETTER AND SETTER---------------------//
@@ -208,6 +268,4 @@ public class Terrain {
 		public void setMatrice(int[][] matrice) {
 			this.matrice = matrice;
 		}
-		
-		
 }

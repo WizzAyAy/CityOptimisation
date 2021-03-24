@@ -6,6 +6,7 @@ public class Batiment {
 	
 	private int numero;
 	private boolean isPlaced;
+	private boolean isLinked;
 	
 	// Constructor
 	public Batiment(int x, int y, int height, int width, int numero) {
@@ -17,6 +18,7 @@ public class Batiment {
 		this.numero = numero;
 		
 		this.isPlaced = false;
+		this.isLinked = false;
 	}
 	
 
@@ -87,13 +89,24 @@ public class Batiment {
 		return numero;
 	}
 
-	// placed
+	// Placed
 	public boolean isPlaced() {
 		return isPlaced;
 	}
 	
 	public void setPlaced(boolean b) {
 		this.isPlaced = b;
+	}
+	
+	// Linked to CityHall
+	public boolean isLinked()
+	{
+		return isLinked;
+	}
+	
+	public void setLinked(boolean link)
+	{
+		this.isLinked = link;
 	}
 	
 	//Area
