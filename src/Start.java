@@ -7,7 +7,7 @@ public class Start {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to Gotham !");
 		City c = new City();
-		c.generCityRandom(1, 1, (int) (Math.random() * 5) + 2);
+		c.generCityRandom(5, 5, (int) (Math.random() * 5) + 2);
 		
 		ViewCtity view = new ViewCtity(c);
 	}

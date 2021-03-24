@@ -83,6 +83,7 @@ public class Terrain {
 	
 	public void placeHDV() {
 		placeBats(batiments.get(0), 0, 0);
+		placeBats(batiments.get(1), 3, 3);
 	}
 	
 	public void updateMap() {
@@ -127,25 +128,11 @@ public class Terrain {
 			return;
 		}
 		
-		ArrayDeque<int[]> visited = stack;
+		ArrayDeque<int[]> visited = stack.clone();
 		
 		while(!stack.isEmpty())
 		{
-			Scanner sc = new Scanner(System.in);
-			String str = sc.nextLine();
-			System.out.println("Stack");
-			showStack(stack);
-			System.out.println("Visited");
-			showStack(visited);
-			
-			System.out.println(this.batiments.get(0).endX());
-			
-			int tmp[] = {this.batiments.get(0).endX(), 0};
-			if(contains(stack, tmp))
-				System.out.println("contains ok");
-			
 			int[] currentPos = stack.removeFirst();
-					
 			int x = currentPos[0];
 			int y = currentPos[1];
 			
@@ -159,6 +146,7 @@ public class Terrain {
 					{
 						stack.addFirst(array);
 						visited.add(array);
+						
 					}
 						
 				}
@@ -223,6 +211,9 @@ public class Terrain {
 			
 			
 		}
+		
+		showStack(stack);
+		showStack(visited);
 	}
 	
 	public ArrayDeque<int[]> initStack()
@@ -313,8 +304,10 @@ public class Terrain {
 		public boolean contains(ArrayDeque<int[]> visited ,int[] array) {
 			
 			for (int[] item: visited) {
-	            if(item[0] == array[1] && item[1] == array[0])
+	            if(item[0] == array[0] && item[1] == array[1])
+	            {
 	            	return true;
+	            }
 	        }
 			return false;
 		}
