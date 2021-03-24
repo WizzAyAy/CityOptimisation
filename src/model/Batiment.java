@@ -41,6 +41,7 @@ public class Batiment {
 		s +=  "(x:" + this.x + ", y:" + this.y + ", w:" + this.width + ", h:" +this.height + ")";
 		return s;
 	}
+	
 
 	// Coordinates
 	public int getX() {
@@ -76,9 +77,18 @@ public class Batiment {
 		return numero;
 	}
 
-	// Is placed
+	// placed
 	public boolean isPlaced() {
 		return isPlaced;
+	}
+	
+	public void setPlaced(boolean b) {
+		this.isPlaced = b;
+	}
+	
+	//Area
+	public int getArea() {
+		return width * height;
 	}
 
 	// Is superimposed to another building
@@ -87,6 +97,5 @@ public class Batiment {
 		// if x or y is > to end of building b, not superimposed, 
 		// else, if end of this building inferior to start of building b, not superimposed, else superimposed
 		return (x > b.endX() || y > b.endY()) ? false : ((endX() < b.getX() || endY() < b.getY()) ? false : true);
-
 	}
 }

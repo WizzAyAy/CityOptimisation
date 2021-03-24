@@ -32,9 +32,15 @@ public class City {
 	public void printCity() {
 		System.out.println("Affichage de la ville : ");
 		terrain.printTerrain();	
+		System.out.println("");
 		
 		System.out.println("Affichage de la liste des bats: ");
 		terrain.printAllBat();
+		System.out.println("");
+		
+		System.out.println("Score :");
+		System.out.println(terrain.score() + " / " + terrain.maxScore());
+		System.out.println("");
 		
 	}
 }
