@@ -120,6 +120,7 @@ public class Terrain {
 	public void links()
 	{
 		ArrayDeque<int[]> stack = initStack();
+		ArrayDeque<int[]> visited = stack;
 		if(stack == null)
 		{
 			return;
@@ -134,53 +135,70 @@ public class Terrain {
 			
 			if(x>0)
 			{
-				if(matrice[x-1][y] == 0)
+				if(matrice[y][x-1] == 0)
 				{
 					int array[] = {x-1,y};
-					stack.addFirst(array);
+					if(!visited.contains(array))
+					{
+						stack.addFirst(array);
+						visited.add(array);
+					}
+						
 				}
 				else
 				{
-					this.batiments.get(matrice[x-1][y]).setLinked(true);
+					this.batiments.get(matrice[y][x-1]).setLinked(true);
 				}
 			}
 			
-			if(x<width)
+			if(x<width-1)
 			{
-				if(matrice[x+1][y] == 0)
+				if(matrice[y][x+1] == 0)
 				{
 					int array[] = {x+1,y};
-					stack.addFirst(array);
+					if(!visited.contains(array))
+					{
+						stack.addFirst(array);
+						visited.add(array);
+					}
 				}
 				else
 				{
-					this.batiments.get(matrice[x+1][y]).setLinked(true);
+					this.batiments.get(matrice[y][x+1]).setLinked(true);
 				}
 			}
 			
 			if(y>0)
 			{
-				if(matrice[x][y-1] == 0)
+				if(matrice[y-1][x] == 0)
 				{
 					int array[] = {x,y-1};
-					stack.addFirst(array);
+					if(!visited.contains(array))
+					{
+						stack.addFirst(array);
+						visited.add(array);
+					}
 				}
 				else
 				{
-					this.batiments.get(matrice[x][y-1]).setLinked(true);
+					this.batiments.get(matrice[y-1][x]).setLinked(true);
 				}
 			}
 			
-			if(y<height)
+			if(y<height-1)
 			{
-				if(matrice[x][y+1] == 0)
+				if(matrice[y+1][x] == 0)
 				{
 					int array[] = {x,y+1};
-					stack.addFirst(array);
+					if(!visited.contains(array))
+					{
+						stack.addFirst(array);
+						visited.add(array);
+					}
 				}
 				else
 				{
-					this.batiments.get(matrice[x][y+1]).setLinked(true);
+					this.batiments.get(matrice[y+1][x]).setLinked(true);
 				}
 			}
 		}
@@ -213,7 +231,7 @@ public class Terrain {
 				stack.add(array);
 			}
 		}
-		if(CityHall.endX() < this.width)
+		if(CityHall.endX() < this.width-1)
 		{
 			for(int i = CityHall.getY(); i < CityHall.endY(); i++)
 			{
@@ -221,7 +239,7 @@ public class Terrain {
 				stack.add(array);
 			}
 		}
-		if(CityHall.endY() < this.height)
+		if(CityHall.endY() < this.height-1)
 		{
 			for(int i = CityHall.getX(); i < CityHall.endX(); i++)
 			{
