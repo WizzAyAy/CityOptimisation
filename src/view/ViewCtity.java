@@ -36,7 +36,7 @@ public class ViewCtity extends JFrame {
 				if(matrice[i][j] == 0)
 					g.drawRect(50 + 40 * j ,50 + 40 * i,40,40);
 				else {
-					g.setColor(Color.red);
+					g.setColor(setColorBat(matrice[i][j]));
 					g.fillRect(50 + 40 * j ,50 + 40 * i,40,40);
 					g.setColor(Color.black);
 					g.drawRect(50 + 40 * j ,50 + 40 * i,40,40);
@@ -44,7 +44,21 @@ public class ViewCtity extends JFrame {
 				}
 			}
 		}
-        
-        
     }
+	
+	public Color setColorBat(int numero) {
+		if(numero == 1) {
+			return new Color(63, 135, 245);
+		}
+		else if(numero%3 == 0) {
+			return new Color(245, 66, 182);
+		}
+		else if(numero%3 == 1) {
+			return new Color(66, 245, 96);
+		}
+		else if(numero%3 == 2) {
+			return new Color(255, 0, 43);
+		}
+		else return Color.black;
+	}
 }
