@@ -286,4 +286,13 @@ public class Terrain {
 		public void setMatrice(int[][] matrice) {
 			this.matrice = matrice;
 		}
+		
+		public boolean contains(ArrayDeque<int[]> visited ,int x, int y) {
+			
+			for (int[] item: visited) {
+	            if(item[0] == x && item[1] == y)
+	            	return true;
+	        }
+			return false;
+		}
 }
