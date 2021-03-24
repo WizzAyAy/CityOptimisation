@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class Terrain {
 	int height, width;
@@ -130,18 +131,31 @@ public class Terrain {
 		
 		while(!stack.isEmpty())
 		{
+			Scanner sc = new Scanner(System.in);
+			String str = sc.nextLine();
+			System.out.println("Stack");
 			showStack(stack);
-			int[] currentPos = stack.removeFirst();
+			System.out.println("Visited");
+			showStack(visited);
 			
+			System.out.println(this.batiments.get(0).endX());
+			
+			int tmp[] = {this.batiments.get(0).endX(), 0};
+			if(contains(stack, tmp))
+				System.out.println("contains ok");
+			
+			int[] currentPos = stack.removeFirst();
+					
 			int x = currentPos[0];
 			int y = currentPos[1];
+			
 			
 			if(x>0)
 			{
 				if(matrice[y][x-1] == 0)
 				{
 					int array[] = {x-1,y};
-					if(!contains(visited, array))
+					if(!contains(visited, array) && !contains(stack, array) )
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -154,29 +168,12 @@ public class Terrain {
 				}
 			}
 			
-			if(x<width-1)
-			{
-				if(matrice[y][x+1] == 0)
-				{
-					int array[] = {x+1,y};
-					if(!contains(visited, array))
-					{
-						stack.addFirst(array);
-						visited.add(array);
-					}
-				}
-				else
-				{
-					this.batiments.get(matrice[y][x+1]).setLinked(true);
-				}
-			}
-			
 			if(y>0)
 			{
 				if(matrice[y-1][x] == 0)
 				{
 					int array[] = {x,y-1};
-					if(!contains(visited, array))
+					if(!contains(visited, array) && !contains(stack, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -188,12 +185,31 @@ public class Terrain {
 				}
 			}
 			
+			if(x<width-1)
+			{
+				if(matrice[y][x+1] == 0)
+				{
+					int array[] = {x+1,y};
+					if(!contains(visited, array) && !contains(stack, array))
+					{
+						stack.addFirst(array);
+						visited.add(array);
+					}
+				}
+				else
+				{
+					this.batiments.get(matrice[y][x+1]).setLinked(true);
+				}
+			}
+			
+			
+			
 			if(y<height-1)
 			{
 				if(matrice[y+1][x] == 0)
 				{
 					int array[] = {x,y+1};
-					if(!contains(visited, array))
+					if(!contains(visited, array) && !contains(stack, array))
 					{
 						stack.addFirst(array);
 						visited.add(array);
@@ -204,6 +220,8 @@ public class Terrain {
 					this.batiments.get(matrice[y+1][x]).setLinked(true);
 				}
 			}
+			
+			
 		}
 	}
 	
@@ -234,19 +252,19 @@ public class Terrain {
 				stack.add(array);
 			}
 		}
-		if(CityHall.endX() < this.width-1)
+		if(CityHall.endX() < this.width)
 		{
 			for(int i = CityHall.getY(); i < CityHall.endY(); i++)
 			{
-				int array[] = {CityHall.endX()+1,i};
+				int array[] = {CityHall.endX(),i};
 				stack.add(array);
 			}
 		}
-		if(CityHall.endY() < this.height-1)
+		if(CityHall.endY() < this.height)
 		{
 			for(int i = CityHall.getX(); i < CityHall.endX(); i++)
 			{
-				int array[] = {i, CityHall.endY()+1};
+				int array[] = {i, CityHall.endY()};
 				stack.add(array);
 			}
 		}
@@ -295,9 +313,10 @@ public class Terrain {
 		public boolean contains(ArrayDeque<int[]> visited ,int[] array) {
 			
 			for (int[] item: visited) {
-	            if(item[0] == array[0] && item[1] == array[1])
+	            if(item[0] == array[1] && item[1] == array[0])
 	            	return true;
 	        }
 			return false;
 		}
+	
 }

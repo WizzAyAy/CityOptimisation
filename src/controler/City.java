@@ -23,8 +23,10 @@ public class City {
 		
 		terrain.placeHDV();
 		terrain.updateMap();
+		printCity();
+		
 		terrain.links();
-		printCity();	
+			
 
 	}
 	
