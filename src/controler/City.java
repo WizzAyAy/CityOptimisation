@@ -25,6 +25,7 @@ public class City {
 		terrain.updateMap();
 		terrain.links();
 		printCity();	
+
 	}
 	
 	public void generCityFile(/*file du prof*/) {
