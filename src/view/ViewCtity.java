@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import controler.City;
@@ -11,8 +13,11 @@ import model.Terrain;
 public class ViewCtity extends JFrame {
 
 	public City city;
+	private ArrayList<Color> colors = new ArrayList<>();
+	
 	public ViewCtity(City city) {
 	super("This is Gotham");
+	generColor();
 	this.city = city;
 	setLocationRelativeTo(null);
 
@@ -33,8 +38,10 @@ public class ViewCtity extends JFrame {
         int [][] matrice = city.getTerrain().getMatrice();
         for(int i = 0; i < matrice.length; i++) {
 			for(int j = 0; j < matrice[i].length; j++) {
-				if(matrice[i][j] == 0)
+				if(matrice[i][j] == 0) {
 					g.drawRect(50 + 40 * j ,50 + 40 * i,40,40);
+					
+				}
 				else {
 					g.setColor(setColorBat(matrice[i][j]));
 					g.fillRect(50 + 40 * j ,50 + 40 * i,40,40);
@@ -46,10 +53,22 @@ public class ViewCtity extends JFrame {
 		}
     }
 	
+	public void generColor() {
+		for(int i = 0; i < 1000; i++) {
+			
+			int r = (int) (Math.random() * 255);
+			int g = (int) (Math.random() * 255);
+			int b = (int) (Math.random() * 255);
+			
+			colors.add(new Color(r,g,b));
+		}
+	}
+	
 	public Color setColorBat(int numero) {
 		if(numero == 1) {
 			return new Color(63, 135, 245);
 		}
-		return new Color((int) Math.random() * 255,(int) Math.random() * 255,(int) Math.random() * 255);
+		return colors.get(numero);
+		
 	}
 }

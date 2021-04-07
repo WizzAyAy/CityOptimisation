@@ -43,6 +43,9 @@ public class Batiment {
 		s +=  "(x:" + this.x + ", y:" + this.y + ", h:" + this.height + ", w:" +this.width + ")";
 		if(this.isPlaced)
 			s += " Placed";
+		if(this.isLinked) {
+			s += " Linked";
+		}
 		return s;
 	}
 	
@@ -115,11 +118,14 @@ public class Batiment {
 	}
 
 	// Is superimposed to another building
-	public boolean isSuperimposed(Batiment b)
-	{
+	public boolean isSuperimposed(Batiment b){
 		// if x or y is > to end of building b, not superimposed, 
 		// else, if end of this building inferior to start of building b, not superimposed, else superimposed
-		return (x > b.endX() || y > b.endY()) ? false : ((endX() < b.getX() || endY() < b.getY()) ? false : true);
+		// for the lore return (x > b.endX() || y > b.endY()) ? false : ((endX() < b.getX() || endY() < b.getY()) ? false : true);
+		boolean tmp = (x > b.endX() - 1 || y > b.endY() - 1); 
+		boolean tmp2 = (endX() - 1< b.getX() || endY() - 1 < b.getY());
+
+		return tmp || tmp2;
 	}
 	
 	public int area()
