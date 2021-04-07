@@ -137,63 +137,50 @@ public class Terrain {
 			int y = currentPos[1];
 			
 			
-			if(x>0)
-			{
-				if(matrice[y][x-1] == 0)
-				{
+			if(x>0){
+				if(matrice[y][x-1] == 0){
 					int array[] = {x-1,y};
-					if(!contains(visited, array) && !contains(stack, array) )
-					{
+					if(!contains(visited, array) && !contains(stack, array) ){
 						stack.addFirst(array);
 						visited.add(array);
 						
 					}
 						
 				}
-				else
-				{
+				else{
 					this.batiments.get(matrice[y][x-1]).setLinked(true);
 				}
 			}
 			
-			if(y>0)
-			{
-				if(matrice[y-1][x] == 0)
-				{
+			if(y>0){
+				if(matrice[y-1][x] == 0){
 					int array[] = {x,y-1};
-					if(!contains(visited, array) && !contains(stack, array))
-					{
+					if(!contains(visited, array) && !contains(stack, array)){
 						stack.addFirst(array);
 						visited.add(array);
 					}
 				}
-				else
-				{
+				else{
 					this.batiments.get(matrice[y-1][x]).setLinked(true);
 				}
 			}
 			
-			if(x<width-1)
-			{
-				if(matrice[y][x+1] == 0)
-				{
+			if(x<width-1){
+				if(matrice[y][x+1] == 0){
 					int array[] = {x+1,y};
-					if(!contains(visited, array) && !contains(stack, array))
-					{
+					if(!contains(visited, array) && !contains(stack, array)){
 						stack.addFirst(array);
 						visited.add(array);
 					}
 				}
-				else
-				{
+				else{
 					this.batiments.get(matrice[y][x+1]).setLinked(true);
 				}
 			}
 			
 			
 			
-			if(y<height-1)
-			{
+			if(y<height-1){
 				if(matrice[y+1][x] == 0)
 				{
 					int array[] = {x,y+1};
@@ -203,8 +190,7 @@ public class Terrain {
 						visited.add(array);
 					}
 				}
-				else
-				{
+				else{
 					this.batiments.get(matrice[y+1][x]).setLinked(true);
 				}
 			}
@@ -304,8 +290,7 @@ public class Terrain {
 		public boolean contains(ArrayDeque<int[]> visited ,int[] array) {
 			
 			for (int[] item: visited) {
-	            if(item[0] == array[0] && item[1] == array[1])
-	            {
+	            if(item[0] == array[0] && item[1] == array[1]){
 	            	return true;
 	            }
 	        }
