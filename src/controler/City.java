@@ -2,7 +2,6 @@ package controler;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,15 +15,16 @@ public class City {
 	public City(){
 		
 		try {
-			generCityFile("./src/instances/instance02.dat");
+			generCityFile("./src/instances/instance01.dat");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-		terrain.placeHDV();
-		terrain.glouton();
+		
+		terrain.placeHDV();		
+		terrain.gloutonAirMax(false);
 		terrain.updateMap();
 		
 		printCity();

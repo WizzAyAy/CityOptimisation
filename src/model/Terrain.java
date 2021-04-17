@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.Scanner;
+
 
 public class Terrain {
 	int height, width;
@@ -99,20 +97,21 @@ public class Terrain {
 		int y = (int) (Math.random() *height / 2);
 		placeBat(batiments.get(0), x, y);
 		batiments.get(0).setLinked(true);
+		updateMap();
 	}
 	
 	public void updateMap() {
 		for(int i = 0; i < batiments.size(); i++) {
+			
 			if(batiments.get(i).isPlaced()) {
-				/*System.out.println("on place le bt : " + batiments.get(i).getNumero());
-				System.out.println("getY()" +  batiments.get(i).getY() + " endY() " +  batiments.get(i).endY()) ;
-				System.out.println("getX()" +  batiments.get(i).getX() + " endX() " +  batiments.get(i).endX()) ;*/
 				for(int a = batiments.get(i).getY(); a < batiments.get(i).endY(); a++) {
 					for(int b = batiments.get(i).getX(); b < batiments.get(i).endX(); b++) {
-						//System.out.println("case : " + a + "," + b + "ajoutÃ©");
 						matrice[a][b] = batiments.get(i).getNumero();
 					}
 				}
+			}
+			else {
+				batiments.get(i).setLinked(false);
 			}
 		}
 	}
@@ -160,7 +159,6 @@ public class Terrain {
 			if(x>0){
 				
 				if(matrice[y][x-1] == 0){
-					
 					int array[] = {x-1,y};
 					if(!contains(visited, array) && !contains(stack, array) ){
 						stack.addFirst(array);
@@ -193,18 +191,16 @@ public class Terrain {
 						visited.add(array);
 					}
 				}
-				else {
+				else{
 					this.batiments.get(matrice[y][x+1] - 1).setLinked(true);
 				}
-				}
+			}
 						
 			
 			if(y<height-1){
-				if(matrice[y+1][x] == 0)
-				{
+				if(matrice[y+1][x] == 0){
 					int array[] = {x,y+1};
-					if(!contains(visited, array) && !contains(stack, array))
-					{
+					if(!contains(visited, array) && !contains(stack, array)){
 						stack.addFirst(array);
 						visited.add(array);
 					}
@@ -213,8 +209,6 @@ public class Terrain {
 					this.batiments.get(matrice[y+1][x] - 1).setLinked(true);
 				}
 			}
-			
-			
 		}
 
 		//showStack(visited);
@@ -267,49 +261,144 @@ public class Terrain {
 		return stack;
 	}
 	
-	//glouton
-	public void glouton() {
+	public void glouton(boolean debug) {		
+		if(debug) {
+			System.out.println("boucle de " + matrice.length + " * " + matrice[0].length);
+		}
 		//on iter sur toutes les cases
-		
 		for(int x = 0; x < matrice.length; x++) {
 			for(int y = 0; y < matrice[x].length; y++) {
 				//on check si la case est libre
-				if(matrice[x][y] == 0) {
-										
+				if(debug)
+					System.out.println("case en " + x + ", " + y);
+				if(matrice[y][x] == 0) {
+					if(debug) {
+						System.out.println("case en " + x + ", " + y + " == 0");
+					}
 					//cette case est libre on tente de placer les batiments
 					Batiment picked = null;
 					for(Batiment b : batiments) {
 						if(!b.isPlaced()) {
-							//System.out.println("on tente de place le bat en " + x + ", " + y);
+							if(debug) {
+								System.out.println("bat : " + b.toString());
+							}
 							placeBat(b, x, y);
 							if(b.isPlaced()) {
+								System.out.println("bat : " + b.toString() + " has been placed");
 								picked = b;
-								break;
 							}
+						
+							updateMap();
+							links();
+							
+							boolean allLink = true;
+							for(Batiment b2 : batiments) {
+								if(b2.isPlaced())
+									allLink &= b2.isLinked();
+							}
+							
+							//ici on a cassé des links donc on enleve le batiment picked
+							if(picked != null && !allLink) {
+								removeBat(picked);
+								updateMap();
+								links();
+							}								
+							updateMap();
 						}
 					}
-					
-					updateMap();
-					links();
-					
-					boolean allLink = true;
-					//ici on a cassÃ© des links donc on enleve le bat !
-					for(Batiment b : batiments) {
-						allLink &= b.isLinked() && b.isPlaced();
-					}
-					updateMap();
-					if(picked != null && allLink) {
-						picked.setPlaced(false);
-					}
-					updateMap();
 				}
-				updateMap();
 			}
-			updateMap();
 		}
-		updateMap();
 	}
 	
+	//gloutonAirMax
+	public void gloutonAirMax(boolean debug) {
+		//tri par les air max en premier
+		//sortByAir();
+		
+		if(debug) {
+			System.out.println("boucle de " + matrice.length + " * " + matrice[0].length);
+		}
+		//on iter sur toutes les cases
+		for(int x = 0; x < matrice.length; x++) {
+			for(int y = 0; y < matrice[x].length; y++) {
+				//on check si la case est libre
+				if(debug) {
+					System.out.println("case en " + x + ", " + y);
+				}
+				if(matrice[y][x] == 0) {
+					if(debug) {
+						System.out.println("case en " + x + ", " + y + " == 0");
+					}
+					//cette case est libre on tente de placer les batiments
+					Batiment picked = null;
+					for(Batiment b : batiments) {
+						if(!b.isPlaced()) {
+							placeBat(b, x, y);
+							if(b.isPlaced()) {
+								if(debug) {
+									System.out.println("bat : " + b.toString() + " has been placed");
+								}
+								picked = b;
+							}
+						
+							updateMap();
+							links();
+							
+							boolean allLink = true;
+							for(Batiment b2 : batiments) {
+								if(b2.isPlaced())
+									allLink &= b2.isLinked();
+							}
+							
+							//ici on a cassé des links donc on enleve le batiment picked
+							if(picked != null && !allLink) {
+								if(debug) {
+									System.out.println("bat : " + b.toString() + " has been removed");
+								}
+								removeBat(picked);
+								updateMap();
+								links();
+							}								
+							updateMap();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void sortByAir() {
+		ArrayList<Batiment> tmp = new ArrayList<>();
+		
+		while(!batiments.isEmpty()) {
+			Batiment chosen = null;
+			double airMax = Double.NEGATIVE_INFINITY;
+			for(Batiment b : batiments) {
+				if(b.getArea() > airMax) {
+					airMax = b.getArea();
+					chosen = b;
+				}
+			}
+			batiments.remove(chosen);
+			tmp.add(chosen);
+		}
+		
+		batiments = (ArrayList<Batiment>) tmp.clone();
+	}
+
+	private void removeBat(Batiment picked) {
+		picked.setLinked(false);
+		picked.setPlaced(false);
+		
+		for(int a = picked.getY(); a < picked.endY(); a++) {
+			for(int b = picked.getX(); b <picked.endX(); b++) {
+				matrice[a][b] = 0;
+			}
+		}		
+		
+	}
+
 	// Utilities, used to show content of stack
 	public void showStack(ArrayDeque<int[]> stack)
 	{

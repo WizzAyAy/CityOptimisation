@@ -34,7 +34,7 @@ public class Batiment {
 	}
 	
 	public String toString() {
-		String s = "Bat nÂ°";
+		String s = "Bat n°";
 		if(this.numero < 10)
 			s += Integer.toString(this.numero) + "  | ";
 		else 
