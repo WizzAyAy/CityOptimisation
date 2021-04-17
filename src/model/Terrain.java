@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Terrain {
@@ -28,6 +29,20 @@ public class Terrain {
 				matrice[i][j] = 0;
 			}
 		}
+	}
+	
+	public void initBatiments() {
+		for(Batiment b : batiments) {
+			b.setLinked(false);
+			b.setPlaced(false);
+			b.setX(0);
+			b.setY(0);
+		}
+	}
+	
+	public void reset() {
+		initMatrice();
+		initBatiments();
 	}
 	
 	
@@ -98,6 +113,15 @@ public class Terrain {
 		placeBat(batiments.get(0), x, y);
 		batiments.get(0).setLinked(true);
 		updateMap();
+	}
+	
+	public boolean placeHDV(int x, int y) {
+		if(batiments.get(0).endX() < x && batiments.get(0).endY() < y)
+			return false;
+		placeBat(batiments.get(0), x, y);
+		batiments.get(0).setLinked(true);
+		updateMap();
+		return true;
 	}
 	
 	public void updateMap() {
@@ -211,13 +235,20 @@ public class Terrain {
 			}
 		}
 
-		//showStack(visited);
+		
 	}
 	
 	public ArrayDeque<int[]> initStack()
 	{
-		Batiment CityHall = batiments.get(0);
+		Batiment CityHall = null;
 		
+		for(Batiment b : batiments) {
+			if(b.getNumero() == 1) {
+				CityHall = b;
+				break;
+			}
+		}
+				
 		if(!CityHall.isPlaced())
 		{
 			return null;
@@ -261,7 +292,17 @@ public class Terrain {
 		return stack;
 	}
 	
-	public void glouton(boolean debug) {		
+	public void glouton(boolean debug, String sortType) {
+
+		if(sortType.equals("air")) {
+			sortByAir();
+		}
+		else if(sortType.equals("congestion")) {
+			sortByCongestion();
+		}
+		else if(sortType.equals("random")) {
+			sortRandom();
+		}
 		if(debug) {
 			System.out.println("boucle de " + matrice.length + " * " + matrice[0].length);
 		}
@@ -284,58 +325,6 @@ public class Terrain {
 							}
 							placeBat(b, x, y);
 							if(b.isPlaced()) {
-								System.out.println("bat : " + b.toString() + " has been placed");
-								picked = b;
-							}
-						
-							updateMap();
-							links();
-							
-							boolean allLink = true;
-							for(Batiment b2 : batiments) {
-								if(b2.isPlaced())
-									allLink &= b2.isLinked();
-							}
-							
-							//ici on a cassé des links donc on enleve le batiment picked
-							if(picked != null && !allLink) {
-								removeBat(picked);
-								updateMap();
-								links();
-							}								
-							updateMap();
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	//gloutonAirMax
-	public void gloutonAirMax(boolean debug) {
-		//tri par les air max en premier
-		//sortByAir();
-		
-		if(debug) {
-			System.out.println("boucle de " + matrice.length + " * " + matrice[0].length);
-		}
-		//on iter sur toutes les cases
-		for(int x = 0; x < matrice.length; x++) {
-			for(int y = 0; y < matrice[x].length; y++) {
-				//on check si la case est libre
-				if(debug) {
-					System.out.println("case en " + x + ", " + y);
-				}
-				if(matrice[y][x] == 0) {
-					if(debug) {
-						System.out.println("case en " + x + ", " + y + " == 0");
-					}
-					//cette case est libre on tente de placer les batiments
-					Batiment picked = null;
-					for(Batiment b : batiments) {
-						if(!b.isPlaced()) {
-							placeBat(b, x, y);
-							if(b.isPlaced()) {
 								if(debug) {
 									System.out.println("bat : " + b.toString() + " has been placed");
 								}
@@ -353,9 +342,6 @@ public class Terrain {
 							
 							//ici on a cassé des links donc on enleve le batiment picked
 							if(picked != null && !allLink) {
-								if(debug) {
-									System.out.println("bat : " + b.toString() + " has been removed");
-								}
 								removeBat(picked);
 								updateMap();
 								links();
@@ -383,8 +369,29 @@ public class Terrain {
 			batiments.remove(chosen);
 			tmp.add(chosen);
 		}
-		
 		batiments = (ArrayList<Batiment>) tmp.clone();
+	}
+	
+	private void sortByCongestion() {
+		ArrayList<Batiment> tmp = new ArrayList<>();
+		
+		while(!batiments.isEmpty()) {
+			Batiment chosen = null;
+			double Congestion = Double.NEGATIVE_INFINITY;
+			for(Batiment b : batiments) {
+				if(b.getWidth() + b.getHeight() > Congestion) {
+					Congestion = b.getWidth() + b.getHeight();
+					chosen = b;
+				}
+			}
+			batiments.remove(chosen);
+			tmp.add(chosen);
+		}
+		batiments = (ArrayList<Batiment>) tmp.clone();
+	}
+	
+	private void sortRandom() {
+		Collections.shuffle(batiments);
 	}
 
 	private void removeBat(Batiment picked) {
@@ -439,6 +446,10 @@ public class Terrain {
 		
 		public ArrayList<Batiment> getBatiments(){
 			return batiments;
+		}
+		
+		public void SetBatiments(ArrayList<Batiment> batiments){
+			this.batiments = batiments;
 		}
 		
 		public boolean contains(ArrayDeque<int[]> visited ,int[] array) {

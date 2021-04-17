@@ -12,22 +12,14 @@ public class City {
 	
 	private Terrain terrain;
 	
-	public City(){
+	public City(String filename){
 		
 		try {
-			generCityFile("./src/instances/instance01.dat");
+			generCityFile("./src/instances/"+filename);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		terrain.placeHDV();		
-		terrain.gloutonAirMax(false);
-		terrain.updateMap();
-		
-		printCity();
 	}
 
 	public void generCityRandom(int xMax, int yMax, int nbBat) throws FileNotFoundException {
@@ -98,5 +90,44 @@ public class City {
 	
 	public Terrain getTerrain() {
 		return this.terrain;
+	}
+	
+	public void glouton(String sortType) {
+		terrain.placeHDV();		
+		terrain.glouton(false, sortType);
+		terrain.updateMap();
+		printCity();
+	}
+	
+	public void BestGlouton(String sortType) {
+		int  XMax = terrain.getWidth();
+		int  YMax = terrain.getHeight();
+		
+		
+		int bestX, bestY;
+		bestX = bestY = 0;
+		int bestScore = -1;
+
+		//on a besoin de check que le coin en haut a gauche les autres solutions sont juste un mirroir 
+		for(int x = 0; x < XMax; x++) {
+			for(int y = 0; y < YMax; y++) {
+				terrain.reset();
+				if(terrain.placeHDV(x, y)) {
+					terrain.glouton(false,sortType);
+					if(terrain.score() > bestScore) {
+						bestScore = terrain.score();
+						bestX = x;
+						bestY = y;
+						
+					}
+				}
+			}	
+		}
+		
+		
+		terrain.placeHDV(bestX, bestY);
+		terrain.glouton(false,sortType);
+		terrain.updateMap();
+		printCity();
 	}
 }
