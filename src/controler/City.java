@@ -30,8 +30,6 @@ public class City {
 		
 		terrain = new Terrain(xTerrain, yTerrain);
 		
-		
-		
 		for(int i = 1; i <= nbBat; i++) {
 			terrain.addBat(new Batiment(xMax / 3 + 2, yMax / 3 + 2, i));
 		}
@@ -103,14 +101,26 @@ public class City {
 		int  XMax = terrain.getWidth();
 		int  YMax = terrain.getHeight();
 		
+		/*optimisation des cases pour lequelles on regarde l'emplacement de depart du cityHall mais ca marche pas :/
+		 * 
+		 * Batiment cityHall = null;
+		
+		for(Batiment b : terrain.getBatiments()) {
+			if(b.getNumero() == 1)
+				cityHall = b;
+		}
+		
+		int endX = cityHall.endX() + 1;
+		int endY = cityHall.endY() + 1;
+		*/
 		
 		int bestX, bestY;
 		bestX = bestY = 0;
 		int bestScore = -1;
 
 		//on a besoin de check que le coin en haut a gauche les autres solutions sont juste un mirroir 
-		for(int x = 0; x < XMax; x++) {
-			for(int y = 0; y < YMax; y++) {
+		for(int x = 0; x < XMax ; x++) {
+			for(int y = 0; y < YMax ; y++) {
 				terrain.reset();
 				if(terrain.placeHDV(x, y)) {
 					terrain.glouton(false,sortType);
