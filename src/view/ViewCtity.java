@@ -15,8 +15,8 @@ public class ViewCtity extends JFrame {
 	public City city;
 	private ArrayList<Color> colors = new ArrayList<>();
 	
-	public ViewCtity(City city) {
-	super("This is Gotham");
+	public ViewCtity(City city, String filename) {
+	super("This is Gotham " + filename);
 	generColor();
 	this.city = city;
 	setLocationRelativeTo(null);

@@ -101,26 +101,30 @@ public class City {
 		int  XMax = terrain.getWidth();
 		int  YMax = terrain.getHeight();
 		
-		/*optimisation des cases pour lequelles on regarde l'emplacement de depart du cityHall mais ca marche pas :/
-		 * 
-		 * Batiment cityHall = null;
+		//optimisation des cases pour lequelles on regarde l'emplacement de depart du cityHall mais ca marche pas :/
+		  
+		Batiment cityHall = null;
 		
 		for(Batiment b : terrain.getBatiments()) {
 			if(b.getNumero() == 1)
 				cityHall = b;
 		}
 		
-		int endX = cityHall.endX() + 1;
-		int endY = cityHall.endY() + 1;
-		*/
+		int endX = cityHall.endX();
+		int endY = cityHall.endY();
+		
+		int borneX =  XMax - endX + 1;
+		int borneY =  YMax - endY + 1;
+		
 		
 		int bestX, bestY;
 		bestX = bestY = 0;
 		int bestScore = -1;
 
 		//on a besoin de check que le coin en haut a gauche les autres solutions sont juste un mirroir 
-		for(int x = 0; x < XMax ; x++) {
-			for(int y = 0; y < YMax ; y++) {
+		for(int y = 0; y < borneY; y++) {
+			for(int x = 0; x < borneX; x++) {
+				
 				terrain.reset();
 				if(terrain.placeHDV(x, y)) {
 					terrain.glouton(false,sortType);
@@ -128,13 +132,11 @@ public class City {
 						bestScore = terrain.score();
 						bestX = x;
 						bestY = y;
-						
 					}
 				}
 			}	
 		}
-		
-		
+		terrain.reset();		
 		terrain.placeHDV(bestX, bestY);
 		terrain.glouton(false,sortType);
 		terrain.updateMap();

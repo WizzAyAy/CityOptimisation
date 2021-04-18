@@ -116,10 +116,15 @@ public class Terrain {
 	}
 	
 	public boolean placeHDV(int x, int y) {
-		if(batiments.get(0).endX() < x && batiments.get(0).endY() < y)
+		Batiment cityHall = null;
+		for(Batiment b : batiments) {
+			if(b.getNumero() == 1)
+				cityHall = b;
+		}
+		if(cityHall.endX() < x && cityHall.endY() < y)
 			return false;
 		placeBat(batiments.get(0), x, y);
-		batiments.get(0).setLinked(true);
+		cityHall.setLinked(true);
 		updateMap();
 		return true;
 	}
@@ -303,9 +308,11 @@ public class Terrain {
 		else if(sortType.equals("random")) {
 			sortRandom();
 		}
+		
 		if(debug) {
 			System.out.println("boucle de " + matrice.length + " * " + matrice[0].length);
 		}
+		
 		//on iter sur toutes les cases
 		for(int x = 0; x < matrice.length; x++) {
 			for(int y = 0; y < matrice[x].length; y++) {
