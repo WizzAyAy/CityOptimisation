@@ -35,7 +35,6 @@ public class City {
 		}
 		
 		terrain.placeHDV();
-		
 	}
 	
 	public void generCityFile(String fileName) throws FileNotFoundException {
